@@ -1,0 +1,33 @@
+.extra-integration-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #f56200;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex: 1 40%;
+}
+
+.extra-integration-button:hover {
+    background-color: #f58f1b;
+    transition: background 0.2s;
+}
+
+.extra-integration-button-label {
+    color: #fff;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.extra-integration-div {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
