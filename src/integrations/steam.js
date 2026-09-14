@@ -37,7 +37,7 @@ export class SteamIntegration extends Integration {
 
         this.server = new TabServer(host);
 
-        this.server.Map("fillForm", this.FillForm);
+        this.server.Map("fillForm", this.FillForm.bind(this));
 
         this.server.StartListen();
         this.client.Start();
@@ -45,13 +45,13 @@ export class SteamIntegration extends Integration {
 
     FillForm(req) {
         if(!req || !req.data) return;
-        if(!req.formType || !req.formData) {
+        if(!req.data.formType || !req.data.formData) {
             this.toasts.Error("Invalid fillform request");
             return;
         }
-        switch(req.formType) {
-            case "HOA": this.FillHoaForm(req.formData); break;
-            default: this.toasts.Error(`Deze versie van SAHExtensions ondersteunt fill form aanvragen voor '${req.formType}' niet!`);
+        switch(req.data.formType) {
+            case "HOA": this.FillHoaForm(req.data.formData); break;
+            default: this.toasts.Error(`Deze versie van SAHExtensions ondersteunt fill form aanvragen voor '${req.data.formType}' niet!`);
         }
     }
 
@@ -92,10 +92,10 @@ export class SteamIntegration extends Integration {
             "Klant heeft abonnement": hasAbonnement ? 26 : undefined,
         });
         Steam.SetTextAreas({
-            "Notitie voor jezelf": this.templates.Note.Execute(templateData),
-            "Omschrijving probleem": this.templates.Description.Execute(templateData),
-            "Verrichte werkzaamheden": this.templates.Executed.Execute(templateData),
-            "(Vrijblijvend) advies/oplossing:": this.templates.Advice.Execute(templateData),
+            "Notitie voor jezelf": this.templates.HOA.Note.Execute(templateData),
+            "Omschrijving probleem": this.templates.HOA.Description.Execute(templateData),
+            "Verrichte werkzaamheden": this.templates.HOA.Executed.Execute(templateData),
+            "(Vrijblijvend) advies/oplossing:": this.templates.HOA.Advice.Execute(templateData),
         });
     }
 }

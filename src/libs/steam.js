@@ -15,7 +15,7 @@ export const Steam = {
     SetDropdowns(values) {
         const dropdowns = this.GetDropdowns();
         if(!dropdowns) return;
-        for(let i = 0; dropdowns.length; i++) {
+        for(let i = 0; i < dropdowns.length; i++) {
             const dropdown = dropdowns[i];
             if(!dropdown) continue;
             const label = this.GetDropdownLabel(dropdown);
@@ -31,7 +31,7 @@ export const Steam = {
     SetTextAreas(values) {
         const textAreas = this.GetTextAreas();
         if(!textAreas) return;
-        for(let i = 0; textAreas.length; i++) {
+        for(let i = 0; i < textAreas.length; i++) {
             const textArea = textAreas[i];
             if(!textArea) continue;
             const label = this.GetTextAreaLabel(textArea);
