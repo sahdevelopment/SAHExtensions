@@ -1,8 +1,8 @@
 import { Integration } from "../libs/integration";
 
 export class GlobalIntegration extends Integration {
-    shouldActivate() { return true; }
-    execute() {
+    ShouldActivate() { return true; }
+    Execute() {
         console.log("Global integration active!");
     }
 }

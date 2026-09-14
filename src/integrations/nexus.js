@@ -1,5 +1,5 @@
 import { Integration } from "../libs/integration";
-import { TabListener } from "../libs/tablistener";
+import { TabServer, TabClient } from "../libs/tab-networking";
 import { HtmlIntegration } from "../libs/htmlintegration";
 import { TamperMonkey as TM } from "../libs/tampermonkey";
 import { Nexus } from "../libs/libnexus";
@@ -10,7 +10,8 @@ import { ToastManager } from "../libs/toasts";
 
 export class NexusIntegration extends Integration {
     urlRegex = /https:\/\/app\.studentaanhuis\.nl.*/;
-    listener;
+    client;
+    server;
     toasts;
 
     Execute() {
@@ -21,9 +22,13 @@ export class NexusIntegration extends Integration {
         this.toasts.Initialize();
 
         //Communication
-        this.listener = new TabListener("nexus");
-        this.listener.AddOnSendFailedHandler((toHost, path, payload) =>  this.toasts.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
-        this.listener.Map("ping", req => console.log("Pong!"));
+        const host = "nexus";
+        this.client = new TabClient(host);
+        this.client.AddOnSendFailedHandler((toHost, path, payload) =>  this.toasts.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
+
+        this.server = new TabServer(host);
+        this.server.Map("ping", req => console.log("Pong!"));
+        this.server.Map("error", req => this.toasts.Error(req.data.message));
         
         //Integration
         TM.AddStyle(NexusCss);
@@ -50,7 +55,8 @@ export class NexusIntegration extends Integration {
             } else this.toasts.Error("Kon niet kopiëren.");
         });
 
-        this.listener.StartListen();
+        this.client.Start();
+        this.server.StartListen();
         integration.Enable();
     }
 
@@ -101,7 +107,7 @@ export class NexusIntegration extends Integration {
         };
         
         this.toasts.Info("Aanvraag naar zoho verzonden...");
-        this.listener.SendTabRequest("zoho", "sendAppointmentToSteam", request);
+        this.client.SendTabRequest("zoho", "sendAppointmentToSteam", request);
     }
 
     async OpenCustomerZoho() {
@@ -119,6 +125,6 @@ export class NexusIntegration extends Integration {
         };
 
         this.toasts.Info("Aanvraag naar zoho verzonden...");
-        this.listener.SendTabRequest("zoho", "openCustomer", request);
+        this.client.SendTabRequest("zoho", "openCustomer", request);
     }
 }
