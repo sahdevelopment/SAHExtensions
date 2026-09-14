@@ -84,10 +84,15 @@ export class Zoho {
         });
     }
 
-    async GetCustomerDetails(customerID) { return await this.ApiRequestWithoutPayload("GET", `contacts/${customerID}?include=accounts,owner`); }
+    async GetCustomerDetails(customerID) { 
+        const response = await this.ZohoApiRequestWithoutPayload("GET", `contacts/${customerID}?include=accounts,owner`);
+        //TODO add error handling
+        return await response.json();
+    }
 
     async SearchCustomers(query) {
         const klantOpties = await (await this.GlobalSearch(query)).json();
+        //TODO add error handling
         if(!klantOpties || klantOpties.data.length < 1) {
             return [];
         }
