@@ -2,7 +2,7 @@ import globals from "globals";
 
 export default [
   {
-    files: ["build.js"],
+    files: ["build.js", "dev.js"],
     languageOptions: {
         sourceType: "module",
         globals: globals.node

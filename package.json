@@ -11,8 +11,9 @@
     "esbuild@0.28.2": true
   },
   "scripts": {
-        "lint": "eslint src",
-        "build": "node build.js",
-        "check": "npm run lint && npm run build"
+        "lint": "eslintnpm src",
+        "build": "npm install && node build.js",
+        "dev": "npm install && node dev.js",
+        "check": "npm install && npm run lint && npm run build"
     }
 }
