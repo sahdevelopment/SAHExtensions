@@ -79,5 +79,29 @@ export const Steam = {
         textArea.value = value;
         textArea.dispatchEvent(new Event("input", { bubbles: true }));
         textArea.dispatchEvent(new Event("change", { bubbles: true }));
+    },
+
+    GetTasks() {
+        return window.belscherm.taskbar.arrTask;
+    },
+
+    GetRecords() {
+        return window.belscherm.arrRecord;
+    },
+
+    GetActiveRecord() {
+        return window.belscherm.activeRecord;
+    },
+
+    HasRecordOpen() {
+        return window.belscherm.userIsInCallRecord() || window.belscherm.userIsInWrapupRecord();
+    },
+
+    UserMessage(message) {
+        window.belscherm.userMessage(message);
+    },
+
+    UserError(message) {
+        window.belscherm.userMessage(message, true);
     }
 };

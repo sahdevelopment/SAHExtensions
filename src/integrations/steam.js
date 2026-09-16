@@ -5,10 +5,12 @@ import { UserSettings } from "../libs/usersettings";
 import { Template } from "../libs/template";
 import { Steam } from "../libs/steam";
 import { Integration } from "../libs/integration";
+import { SteamMonitor } from "../libs/steam-monitor";
 
 export class SteamIntegration extends Integration {
     urlRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/.*/;
     abonnementRegex = /Standaard abonnement \| Actief \| [0-9]+\-[0-9]+\-[0-9]+/;
+    monitor;
     toasts;
     client;
     server;
@@ -39,6 +41,11 @@ export class SteamIntegration extends Integration {
 
         this.server.Map("fillForm", this.FillForm.bind(this));
 
+        //Monitor Steam
+        this.monitor = new SteamMonitor();
+
+        //Enable everything
+        this.monitor.Enable();
         this.server.StartListen();
         this.client.Start();
     }
