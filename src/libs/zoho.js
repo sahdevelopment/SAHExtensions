@@ -100,4 +100,13 @@ export class Zoho {
         for(let i = 0; i < klantOpties.data.length; i++) results.push(klantOpties.data[i].id);
         return results;
     }
+
+    GetCurrentCustomerID() {
+        const klantIDSelectorRegex = /https:\/\/desk\.zoho\.eu\/agent\/sahnl\/.+\/klanten\/details\/([0-9]*)/;
+        const res = klantIDSelectorRegex.exec(window.location.href);
+        if(!res) return undefined;
+        const klantZohoID = res[1];
+        if(!klantZohoID) return undefined;
+        return klantZohoID;
+    }
 };

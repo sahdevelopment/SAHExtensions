@@ -53,6 +53,9 @@ export class ZohoIntegration extends Integration {
             return customerPanel.querySelector(".zd_v2-customerprofile-staticSectionCnt");
         }, false);
 
+        integration.OnClick("toSteamBtn", async() => await this.SendCurrentToSteam());
+        integration.OnClick("toNexusBtn", async() => await this.SendCurrentToNexus());
+
         this.client.Start();
         integration.Enable();        
     }
@@ -105,5 +108,48 @@ export class ZohoIntegration extends Integration {
             }
         };
         this.client.SendTabRequest("steam", "fillForm", request);
+    }
+
+    async SendCurrentToSteam() {
+        const customerID = this.zoho.GetCurrentCustomerID();
+        if(!customerID) {
+            this.toasts.Error("Kan klant niet naar steam sturen, klant ID ongeldig");
+            return;
+        }
+        const customer = await this.zoho.GetCustomerDetails(customerID);
+        if(!customer) {
+            this.toasts.Error("Kan klant niet naar steam sturen, klant niet gevonden.");
+            return;
+        }
+        const request = {
+            formType: "General",
+            formData: {
+                customerData: customer
+            }
+        };
+        this.client.SendTabRequest("steam", "fillForm", request);
+    }
+
+    async SendCurrentToNexus() {
+        const customerID = this.zoho.GetCurrentCustomerID();
+        if(!customerID) {
+            this.toasts.Error("Kan klant niet naar nexus sturen, klant ID ongeldig");
+            return;
+        }
+        const customer = await this.zoho.GetCustomerDetails(customerID);
+        if(!customer) {
+            this.toasts.Error("Kan klant niet naar nexus sturen, klant niet gevonden.");
+            return;
+        }
+        const customerNumber = customer?.cf?.cf_customer_number;
+        if(!customerNumber) {
+            this.toasts.Error("Kan klant niet naar nexus sturen, klantnummer niet gevonden.");
+            return;
+        }
+        Object.assign(document.createElement("a"), {
+            target: "_blank",
+            rel: "noopener noreferrer",
+            href: `https://app.studentaanhuis.nl/?search=${customerNumber}`,
+        }).click();
     }
 }

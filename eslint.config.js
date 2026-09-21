@@ -44,7 +44,8 @@ export default [
         GM_webRequest: "readonly",
         GM_xmlhttpRequest: "readonly",
         unsafeWindow: "readonly",
-        Integration: "readonly"
+        Integration: "readonly",
+        Record: "readonly",
       },
     },
 

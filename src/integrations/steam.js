@@ -58,10 +58,32 @@ export class SteamIntegration extends Integration {
         }
         switch(req.data.formType) {
             case "HOA": this.FillHoaForm(req.data.formData); break;
+            case "General": this.FillGeneralDetails(req.data.formData); break;
             default: this.toasts.Error(`Deze versie van SAHExtensions ondersteunt fill form aanvragen voor '${req.data.formType}' niet!`);
         }
     }
 
+    CheckForAbonnement(customer) {
+        const abonnement = customer.customFields["Chargebee abonnementinformatie"];
+        let hasAbonnement = false;
+        if(abonnement && abonnement.match(this.abonnementRegex)) {
+            hasAbonnement = true;
+        }
+        return hasAbonnement;
+    }
+
+    FillGeneralDetails(formData) {
+        if(!formData) return;
+        const customer = formData.customerData;
+        if(!customer) return;
+
+        const hasAbonnement = this.CheckForAbonnement(customer);
+        Steam.SetBox(9745, customer.phone);
+        Steam.SetBox(9546, customer.cf.cf_customer_number);
+        Steam.SetDropdowns({
+            "Klant heeft abonnement": hasAbonnement ? 26 : undefined,
+        });
+    }
     
     FillHoaForm(formData) {
         if(!formData) return;
@@ -69,11 +91,7 @@ export class SteamIntegration extends Integration {
         const customer = formData.customerData;
         if(!customer || !appointment) return;
 
-        const abonnement = customer.customFields["Chargebee abonnementinformatie"];
-        let hasAbonnement = false;
-        if(abonnement && abonnement.match(this.abonnementRegex)) {
-            hasAbonnement = true;
-        }
+        const hasAbonnement = this.CheckForAbonnement(customer);
 
         const templateData = { 
             problem: appointment.appointment.problem, 
