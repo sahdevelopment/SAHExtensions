@@ -1,4 +1,5 @@
 import { TamperMonkey as TM } from "./tampermonkey";
+import { FontAwesome as FA } from "./font-awesome";
 import SettingsCSS from "../css/settings.css";
 import SettingsHTML from "../html/settings.html";
 
@@ -9,6 +10,7 @@ export class ScriptConfig {
     constructor() {
         GM_registerMenuCommand("Open Settings", this.OpenSettings, "s");
         TM.AddStyle(SettingsCSS);
+        FA.Enable();
     }
 
     async Load() {
