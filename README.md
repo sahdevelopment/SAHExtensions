@@ -2,7 +2,7 @@
 ## How to contribute?
 Fork the repository, make changes, create a pull request using your fork's branch.
 
-## Clone and build instructions
+## Build instructions
 
 **Requirements**
 [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
@@ -10,6 +10,5 @@ Fork the repository, make changes, create a pull request using your fork's branc
 ```bash
 git clone https://github.com/sahdevelopment/SAHExtensions.git
 cd SAHExtensions
-npm install
 npm run build
 ```
