@@ -1,0 +1,21 @@
+.integration-button {
+    cursor: var(--zdr-cursor-pointer);
+    border-color: rgb(71, 157, 255);
+    color: rgb(71, 157, 255);
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-family: var(--zd-font-family, ""), var(--zd_fallback_font, ZDLato);
+    font-weight: var(--zd-fw-semibold);
+    font-size: var(--zd_font_size13);
+    transition: color 1s ease;
+    transition: border-color 1s ease;
+}
+
+.integration-button:hover {
+    border-color: hsl(212, 64%, 79%);
+    color: hsl(212, 64%, 79%);
+    transition: color 1s ease;
+    transition: border-color 1s ease;
+}

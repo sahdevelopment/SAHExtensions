@@ -11,8 +11,8 @@ function main() {
 
     const integrations = [new GlobalIntegration(), new SteamIntegration(), new NexusIntegration(), new ZohoIntegration()];
     integrations.forEach(x => {
-        if(!x.shouldActivate()) return;
-        x.execute();
+        if(!x.ShouldActivate()) return;
+        x.Execute();
     });
 }
 

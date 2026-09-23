@@ -2,7 +2,7 @@ import globals from "globals";
 
 export default [
   {
-    files: ["build.js"],
+    files: ["build.js", "dev.js"],
     languageOptions: {
         sourceType: "module",
         globals: globals.node
@@ -44,7 +44,8 @@ export default [
         GM_webRequest: "readonly",
         GM_xmlhttpRequest: "readonly",
         unsafeWindow: "readonly",
-        Integration: "readonly"
+        Integration: "readonly",
+        Record: "readonly",
       },
     },
 
