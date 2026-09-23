@@ -1,0 +1,45 @@
+name: Automatic Publish
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to release branch
+        run: |
+          cp dist/sah-extensions.user.js /tmp/sah-extensions.user.js
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout --orphan release
+          git rm -rf . || true
+          cp /tmp/sah-extensions.user.js sah-extensions.user.js
+          git add sah-extensions.user.js
+          git commit -m "Publish sah-extensions.user.js"
+          git push origin release --force
