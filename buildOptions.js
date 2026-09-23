@@ -15,6 +15,7 @@ const header = `// ==UserScript==
 // @grant GM_addStyle
 // @grant GM_addElement
 // @grant GM_xmlhttpRequest
+// @grant GM_registerMenuCommand
 //
 // ==/UserScript==
 `;

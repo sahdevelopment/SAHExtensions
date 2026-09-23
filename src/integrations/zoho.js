@@ -6,9 +6,9 @@ import { TamperMonkey as TM } from "../libs/tampermonkey";
 import { MainTabMonitor } from "../libs/main-tab";
 import { Zoho } from "../libs/zoho";
 import { TokenCollector } from "../libs/zoho-token-collector";
+import { Config } from "../libs/global-values";
 import ZohoCSS from "../css/zoho.css";
 import ZohoHTML from "../html/zoho.html";
-import { UserSettings } from "../libs/usersettings";
 
 export class ZohoIntegration extends Integration {
     urlRegex = /https:\/\/desk\.zoho\.eu\/agent\/sahnl.*/;
@@ -89,7 +89,7 @@ export class ZohoIntegration extends Integration {
         if(!success) return;
         
         const url = `https://desk.zoho.eu/agent/sahnl/sahnl/klanten/details/${customerID}`;
-        if(UserSettings.General.ZohoOpensInNewTab) window.open(url);
+        if(Config.Get("general.zohonewtab")) window.open(url);
         else window.location.href = url;
     }
 

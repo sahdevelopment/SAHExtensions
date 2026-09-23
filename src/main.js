@@ -1,13 +1,17 @@
-import { UserSettings } from "./libs/usersettings";
 import { SteamIntegration } from "./integrations/steam";
 import { NexusIntegration } from "./integrations/nexus";
 import { ZohoIntegration } from "./integrations/zoho";
 import { GlobalIntegration } from "./integrations/global";
+import { Config } from "./libs/global-values";
+import { ConfigDefaults } from "./libs/config-defaults";
 
 "use strict";
 
 function main() {
-    if(!UserSettings.General.IntegrationEnabled) return;
+    ConfigDefaults.RegisterAll();
+    Config.Load();
+
+    if(!Config.Get("general.enabled")) return;
 
     const integrations = [new GlobalIntegration(), new SteamIntegration(), new NexusIntegration(), new ZohoIntegration()];
     integrations.forEach(x => {
