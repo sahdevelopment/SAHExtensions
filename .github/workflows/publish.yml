@@ -34,8 +34,8 @@ jobs:
         run: |
           cp dist/sah-extensions.user.js /tmp/sah-extensions.user.js
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "sah-bot[bot]"
+          git config user.email "sah-build-bot@studentaanhuis.nl"
 
           git checkout --orphan release
           git rm -rf . || true
