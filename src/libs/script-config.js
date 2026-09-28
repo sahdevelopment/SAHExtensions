@@ -68,6 +68,21 @@ export class ScriptConfig {
                     const settings = settingsContent.querySelectorAll(".sah-config-setting");
                     settingsBindFunc(settings);
 
+                    const jsonBox = settingsContent.querySelector(".sah-config-json-box");
+                    if(jsonBox) {
+                        jsonBox.value = JSON.stringify(this.UserSettings, null, "\t");
+                        jsonBox.addEventListener("change", (() => {
+                            try {
+                                const settingsJson = JSON.parse(jsonBox.value);
+                                if(settingsJson) {
+                                    this.UserSettings = settingsJson;
+                                }
+                            } catch (error) {
+                                console.error("Invalid JSON:", error);
+                            }
+                        }).bind(this));
+                    }
+
                     settingsContent.classList.remove("changing");
                     settingsContent.classList.add("changed");
 
