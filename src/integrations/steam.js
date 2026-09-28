@@ -1,11 +1,10 @@
 import { ToastManager } from "../libs/toasts";
 import { TabServer, TabClient } from "../libs/tab-networking";
-import { TamperMonkey as TM } from "../libs/tampermonkey";
-import { UserSettings } from "../libs/usersettings";
 import { Template } from "../libs/template";
 import { Steam } from "../libs/steam";
 import { Integration } from "../libs/integration";
 import { SteamMonitor } from "../libs/steam-monitor";
+import { Config } from "../libs/global-values";
 
 export class SteamIntegration extends Integration {
     urlRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/.*/;
@@ -21,10 +20,10 @@ export class SteamIntegration extends Integration {
         //Templates
         this.templates = {
             HOA: {
-                Note: new Template(UserSettings.HOA.SteamNotitieTemplate),
-                Description: new Template(UserSettings.HOA.SteamOmschrijvingTemplate),
-                Executed: new Template(UserSettings.HOA.SteamVerrichtTemplate),
-                Advice: new Template(UserSettings.HOA.SteamAdviesTemplate)
+                Note: new Template(Config.Get("hoa.template.note")),
+                Description: new Template(Config.Get("hoa.template.desc")),
+                Executed: new Template(Config.Get("hoa.template.exec")),
+                Advice: new Template(Config.Get("hoa.template.advice"))
             }
         };
                 

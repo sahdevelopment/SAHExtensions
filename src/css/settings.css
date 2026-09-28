@@ -1,0 +1,790 @@
+#sah-extensions-config {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 3% 10%;
+    box-sizing: border-box;
+
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    pointer-events: none;
+
+    /* Closed state */
+    visibility: hidden;
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0s linear 0.25s;
+}
+
+#sah-extensions-config.open {
+    visibility: visible;
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0s linear 0s;
+}
+
+.sah-config-dialog {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border-radius: 5px;
+    background-color: rgb(66, 66, 66);
+
+    filter: drop-shadow(10px 10px 4px #00000033);
+
+    transform: scale(0.96) translateY(8px);
+    opacity: 0;
+
+    transition:
+        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 0.2s ease;
+}
+
+#sah-extensions-config.open .sah-config-dialog {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* -------------------------------------------------------
+   Header
+------------------------------------------------------- */
+
+.sah-config-top-bar {
+    display: flex;
+    align-items: center;
+
+    flex: 0 0 auto;
+
+    padding: 0.5em 1em;
+}
+
+.sah-config-header {
+    flex: 1 1 auto;
+
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sah-config-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    padding: 15px;
+
+    border-radius: 5px;
+
+    background-color: rgb(66, 66, 66);
+    color: #fff;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.sah-config-close:hover {
+    background-color: rgb(44, 44, 44);
+}
+
+.sah-config-close:active {
+    transform: scale(0.9);
+}
+
+/* -------------------------------------------------------
+   Main layout
+------------------------------------------------------- */
+
+.sah-config-dialog-body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+/* -------------------------------------------------------
+   Categories
+------------------------------------------------------- */
+
+.sah-config-categories {
+    flex: 0 0 15em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    min-width: 15em;
+    min-height: 0;
+
+    padding: 0.5em;
+
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.sah-config-category {
+    position: relative;
+
+    padding: 0.75em 1em;
+
+    border-radius: 5px;
+
+    color: #ddd;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.sah-config-category:hover {
+    background-color: rgb(55, 55, 55);
+    color: #fff;
+    transform: translateX(3px);
+}
+
+.sah-config-category.active {
+    background-color: rgb(55, 55, 55);
+    color: #fff;
+}
+
+.sah-config-category.active::before {
+    content: "";
+
+    position: absolute;
+    left: 0.25em;
+    top: 20%;
+    bottom: 20%;
+
+    width: 3px;
+
+    border-radius: 999px;
+
+    background-color: #fff;
+
+    animation: sah-category-indicator-in 0.2s ease;
+}
+
+/* -------------------------------------------------------
+   Settings
+------------------------------------------------------- */
+
+.sah-config-settings {
+    flex: 1 1 auto;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+
+    padding-right: 1em;
+    padding-bottom: 1em;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+.sah-config-settings-content {
+    flex: 1 1 auto;
+
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1em;
+
+    border-radius: 5px;
+
+    background-color: rgb(55, 55, 55);
+    color: #fff;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+.sah-config-settings-content.changing {
+    opacity: 0;
+    transform: translateX(12px);
+
+    transition:
+        opacity 0.12s ease,
+        transform 0.12s ease;
+}
+
+/*
+ * Applied after the new category has been inserted.
+ */
+.sah-config-settings-content.changed {
+    animation: sah-category-content-in 0.2s ease forwards;
+}
+
+/* -------------------------------------------------------
+   Category title
+------------------------------------------------------- */
+
+.sah-config-category-header {
+    flex: 0 0 auto;
+
+    margin-bottom: 1em;
+
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* -------------------------------------------------------
+   Settings
+------------------------------------------------------- */
+
+.sah-config-setting {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    min-height: 52px;
+    flex-shrink: 0;
+
+    padding: 0.75em 0;
+
+    border-bottom: 1px solid rgb(75, 75, 75);
+}
+
+.sah-config-setting-label {
+    flex: 1 1 auto;
+}
+
+.sah-config-setting-control {
+    flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------
+   Toggle
+------------------------------------------------------- */
+
+.sah-config-toggle {
+    position: relative;
+
+    width: 46px;
+    height: 24px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 0;
+    border-radius: 999px;
+
+    background-color: rgb(90, 90, 90);
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.sah-config-toggle::before {
+    content: "";
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background-color: #fff;
+
+    box-shadow: 0 1px 3px #0005;
+
+    transition:
+        transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sah-config-toggle:checked {
+    background-color: #4caf50;
+}
+
+.sah-config-toggle:checked::before {
+    transform: translateX(22px);
+}
+
+.sah-config-toggle:hover {
+    box-shadow: 0 0 0 3px #ffffff12;
+}
+
+.sah-config-toggle:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* -------------------------------------------------------
+   Inputs
+------------------------------------------------------- */
+
+.sah-config-input,
+.sah-config-textarea,
+.sah-config-select {
+    width: 30em;
+
+    box-sizing: border-box;
+
+    padding: 0.6em 0.75em;
+
+    border: 1px solid rgb(90, 90, 90);
+    border-radius: 5px;
+
+    background-color: rgb(44, 44, 44);
+    color: #fff;
+
+    font: inherit;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.sah-config-input:hover,
+.sah-config-textarea:hover,
+.sah-config-select:hover {
+    border-color: rgb(110, 110, 110);
+}
+
+.sah-config-input:focus,
+.sah-config-textarea:focus,
+.sah-config-select:focus {
+    border-color: rgb(150, 150, 150);
+
+    background-color: rgb(48, 48, 48);
+
+    box-shadow: 0 0 0 3px #ffffff0d;
+}
+
+.sah-config-input::placeholder,
+.sah-config-textarea::placeholder {
+    color: rgb(150, 150, 150);
+}
+
+.sah-config-textarea {
+    min-height: 100px;
+
+    resize: vertical;
+
+    line-height: 1.45;
+}
+
+/* -------------------------------------------------------
+   Dropdown
+------------------------------------------------------- */
+
+.sah-config-select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    padding-right: 2.25em;
+
+    cursor: pointer;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #bbb 50%),
+        linear-gradient(135deg, #bbb 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 14px) 50%,
+        calc(100% - 9px) 50%;
+
+    background-size:
+        5px 5px,
+        5px 5px;
+
+    background-repeat: no-repeat;
+}
+
+.sah-config-select option {
+    background-color: rgb(44, 44, 44);
+    color: #fff;
+}
+
+/* -------------------------------------------------------
+   Animations
+------------------------------------------------------- */
+
+@keyframes sah-category-indicator-in {
+    from {
+        opacity: 0;
+        transform: scaleY(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+}
+
+@keyframes sah-category-content-in {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* -------------------------------------------------------
+   Footer
+------------------------------------------------------- */
+
+.sah-config-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    flex: 0 0 auto;
+
+    padding: 0em 1em 0.75em 1em;
+
+    background-color: rgb(66, 66, 66);
+
+    box-sizing: border-box;
+}
+
+.sah-config-save {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.sah-config-save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 96px;
+    min-height: 32px;
+
+    padding: 0 16px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #0067c5;
+    border-radius: 4px;
+
+    background-color: #0078d4;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+    user-select: none;
+
+    box-shadow:
+        0 1px 2px #00000026;
+
+    transition:
+        background-color 0.1s ease,
+        border-color 0.1s ease,
+        box-shadow 0.1s ease,
+        transform 0.05s ease;
+}
+
+/* Hover — Fluent / Edge style */
+.sah-config-save-button:hover {
+    background-color: #106ebe;
+    border-color: #005a9e;
+
+    box-shadow:
+        0 2px 4px #00000030;
+}
+
+/* Pressed */
+.sah-config-save-button:active {
+    background-color: #005a9e;
+    border-color: #004578;
+
+    box-shadow: none;
+
+    transform: translateY(1px);
+}
+
+/* Keyboard focus */
+.sah-config-save-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+
+    box-shadow:
+        0 0 0 4px #0078d466;
+}
+
+/* -------------------------------------------------------
+   Template options
+------------------------------------------------------- */
+
+.sah-config-template-info {
+    flex: 0 0 auto;
+
+    margin-bottom: 1em;
+    padding: 0.75em;
+
+    border: 1px solid rgb(75, 75, 75);
+    border-radius: 5px;
+
+    background-color: rgb(48, 48, 48);
+    box-sizing: border-box;
+}
+
+.sah-config-template-info-header {
+    display: block;
+
+    margin-bottom: 0.65em;
+
+    color: #fff;
+
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.sah-config-template-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+
+    min-height: 32px;
+
+    padding: 0.35em 0.5em;
+
+    border-radius: 4px;
+
+    transition:
+        background-color 0.1s ease;
+}
+
+.sah-config-template-option:hover {
+    background-color: rgb(58, 58, 58);
+}
+
+.sah-config-template-option-name {
+    flex: 0 0 auto;
+
+    padding: 0.2em 0.45em;
+
+    border: 1px solid #4a9eff;
+    border-radius: 3px;
+
+    background-color: #12395c;
+    color: #8bc4ff;
+
+    font-family:
+        "Cascadia Code",
+        "Consolas",
+        monospace;
+
+    font-size: 0.85em;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    user-select: all;
+}
+
+.sah-config-template-option-description {
+    flex: 1 1 auto;
+
+    color: #c8c8c8;
+
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+/* Subtle divider between options */
+.sah-config-template-option + .sah-config-template-option {
+    border-top: 1px solid rgb(62, 62, 62);
+}
+
+/* Keyboard accessibility */
+.sah-config-template-option:focus-within {
+    background-color: rgb(58, 58, 58);
+}
+
+.sah-config-template-option-name:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* -------------------------------------------------------
+   Reset
+------------------------------------------------------- */
+
+.sah-config-reset {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5em;
+
+    margin-top: 1.5em;
+    padding: 1em;
+
+    border: 1px solid #8f1f24;
+    background-color: rgb(48, 48, 48);
+    border-radius: 5px;
+
+    background-color: rgb(48, 48, 48);
+
+    box-sizing: border-box;
+}
+
+.sah-config-reset-warning {
+    flex: 1 1 auto;
+
+    color: #d8d8d8;
+
+    font-size: 0.875em;
+    line-height: 1.45;
+}
+
+.sah-config-reset-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    min-width: 150px;
+    min-height: 32px;
+
+    padding: 0 14px;
+
+    border: 1px solid #b02a2e;
+    border-radius: 4px;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+    user-select: none;
+
+    background-color: #d13438;
+    color: #fff;
+
+    box-shadow:
+        0 1px 2px #00000026;
+
+    transition:
+        background-color 0.1s ease,
+        border-color 0.1s ease,
+        box-shadow 0.1s ease,
+        transform 0.05s ease;
+}
+
+.sah-config-reset-button:hover {
+    background-color: #e43b40;
+    border-color: #c43136;
+
+    box-shadow:
+        0 2px 4px #00000030;
+}
+
+.sah-config-reset-button:active {
+    background-color: #b02a2e;
+    border-color: #8f1f24;
+
+    box-shadow: none;
+
+    transform: translateY(1px);
+}
+
+.sah-config-reset-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+
+    box-shadow:
+        0 0 0 4px #d1343866;
+}
+
+/* -------------------------------------------------------
+   Reduced motion
+------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    #sah-extensions-config,
+    .sah-config-dialog,
+    .sah-config-settings-content,
+    .sah-config-category.active::before {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .sah-config-close,
+    .sah-config-category,
+    .sah-config-toggle,
+    .sah-config-toggle::before,
+    .sah-config-input,
+    .sah-config-textarea,
+    .sah-config-select {
+        transition: none !important;
+    }
+    .sah-config-save-button {
+        transition: none !important;
+    }
+    .sah-config-template-option {
+        transition: none !important;
+    }
+    .sah-config-reset-button {
+        transition: none !important;
+    }
+}

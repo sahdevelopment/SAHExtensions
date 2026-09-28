@@ -37,7 +37,7 @@ export const Steam = {
             const label = this.GetTextAreaLabel(textArea);
             if(!label) continue;
             const value = values[label];
-            if(value) {
+            if(value && value.length > 0) {
                 this.SetTextArea(textArea, value);
                 continue;
             }
@@ -79,29 +79,5 @@ export const Steam = {
         textArea.value = value;
         textArea.dispatchEvent(new Event("input", { bubbles: true }));
         textArea.dispatchEvent(new Event("change", { bubbles: true }));
-    },
-
-    GetTasks() {
-        return window.belscherm.taskbar.arrTask;
-    },
-
-    GetRecords() {
-        return window.belscherm.arrRecord;
-    },
-
-    GetActiveRecord() {
-        return window.belscherm.activeRecord;
-    },
-
-    HasRecordOpen() {
-        return window.belscherm.userIsInCallRecord() || window.belscherm.userIsInWrapupRecord();
-    },
-
-    UserMessage(message) {
-        window.belscherm.userMessage(message);
-    },
-
-    UserError(message) {
-        window.belscherm.userMessage(message, true);
     }
 };
