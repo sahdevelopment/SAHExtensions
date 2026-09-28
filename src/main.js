@@ -7,9 +7,9 @@ import { ConfigDefaults } from "./libs/config-defaults";
 
 "use strict";
 
-function main() {
+async function main() {
     ConfigDefaults.RegisterAll();
-    Config.Load();
+    await Config.Load();
 
     if(!Config.Get("general.enabled")) return;
 
