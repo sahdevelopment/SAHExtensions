@@ -223,6 +223,7 @@
 .sah-config-settings-content {
     flex: 1 1 auto;
 
+    height: 100%;
     min-width: 0;
     min-height: 0;
 
@@ -237,15 +238,14 @@
     color: #fff;
 
     overflow-y: auto;
+    overflow-x: hidden;
+
     box-sizing: border-box;
 
-    /*
-     * This is deliberately not animated here.
-     * The .changing class handles category transitions.
-     */
     opacity: 1;
     transform: translateX(0);
 }
+
 
 .sah-config-settings-content.changing {
     opacity: 0;
@@ -286,6 +286,7 @@
     gap: 1em;
 
     min-height: 52px;
+    flex-shrink: 0;
 
     padding: 0.75em 0;
 
@@ -568,6 +569,194 @@
 }
 
 /* -------------------------------------------------------
+   Template options
+------------------------------------------------------- */
+
+.sah-config-template-info {
+    flex: 0 0 auto;
+
+    margin-bottom: 1em;
+    padding: 0.75em;
+
+    border: 1px solid rgb(75, 75, 75);
+    border-radius: 5px;
+
+    background-color: rgb(48, 48, 48);
+    box-sizing: border-box;
+}
+
+.sah-config-template-info-header {
+    display: block;
+
+    margin-bottom: 0.65em;
+
+    color: #fff;
+
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.sah-config-template-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+
+    min-height: 32px;
+
+    padding: 0.35em 0.5em;
+
+    border-radius: 4px;
+
+    transition:
+        background-color 0.1s ease;
+}
+
+.sah-config-template-option:hover {
+    background-color: rgb(58, 58, 58);
+}
+
+.sah-config-template-option-name {
+    flex: 0 0 auto;
+
+    padding: 0.2em 0.45em;
+
+    border: 1px solid #4a9eff;
+    border-radius: 3px;
+
+    background-color: #12395c;
+    color: #8bc4ff;
+
+    font-family:
+        "Cascadia Code",
+        "Consolas",
+        monospace;
+
+    font-size: 0.85em;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    user-select: all;
+}
+
+.sah-config-template-option-description {
+    flex: 1 1 auto;
+
+    color: #c8c8c8;
+
+    font-size: 0.85em;
+    line-height: 1.4;
+}
+
+/* Subtle divider between options */
+.sah-config-template-option + .sah-config-template-option {
+    border-top: 1px solid rgb(62, 62, 62);
+}
+
+/* Keyboard accessibility */
+.sah-config-template-option:focus-within {
+    background-color: rgb(58, 58, 58);
+}
+
+.sah-config-template-option-name:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* -------------------------------------------------------
+   Reset
+------------------------------------------------------- */
+
+.sah-config-reset {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5em;
+
+    margin-top: 1.5em;
+    padding: 1em;
+
+    border: 1px solid #8f1f24;
+    background-color: rgb(48, 48, 48);
+    border-radius: 5px;
+
+    background-color: rgb(48, 48, 48);
+
+    box-sizing: border-box;
+}
+
+.sah-config-reset-warning {
+    flex: 1 1 auto;
+
+    color: #d8d8d8;
+
+    font-size: 0.875em;
+    line-height: 1.45;
+}
+
+.sah-config-reset-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    min-width: 150px;
+    min-height: 32px;
+
+    padding: 0 14px;
+
+    border: 1px solid #b02a2e;
+    border-radius: 4px;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+    user-select: none;
+
+    background-color: #d13438;
+    color: #fff;
+
+    box-shadow:
+        0 1px 2px #00000026;
+
+    transition:
+        background-color 0.1s ease,
+        border-color 0.1s ease,
+        box-shadow 0.1s ease,
+        transform 0.05s ease;
+}
+
+.sah-config-reset-button:hover {
+    background-color: #e43b40;
+    border-color: #c43136;
+
+    box-shadow:
+        0 2px 4px #00000030;
+}
+
+.sah-config-reset-button:active {
+    background-color: #b02a2e;
+    border-color: #8f1f24;
+
+    box-shadow: none;
+
+    transform: translateY(1px);
+}
+
+.sah-config-reset-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+
+    box-shadow:
+        0 0 0 4px #d1343866;
+}
+
+/* -------------------------------------------------------
    Reduced motion
 ------------------------------------------------------- */
 
@@ -590,6 +779,12 @@
         transition: none !important;
     }
     .sah-config-save-button {
+        transition: none !important;
+    }
+    .sah-config-template-option {
+        transition: none !important;
+    }
+    .sah-config-reset-button {
         transition: none !important;
     }
 }

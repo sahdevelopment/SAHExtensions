@@ -6,6 +6,7 @@ import GeneralSettingsHTML from "../html/settings/general.html";
 import HOASettingsHTML from "../html/settings/hoa.html";
 import KCCSettingsHTML from "../html/settings/kcc.html";
 import ImportExportSettingsHTML from "../html/settings/import-export.html";
+import ResetSettingsHTML from "../html/settings/reset.html";
 
 export class ScriptConfig {
     Defaults = {};
@@ -32,7 +33,8 @@ export class ScriptConfig {
             "general": GeneralSettingsHTML,
             "hoa": HOASettingsHTML,
             "kcc": KCCSettingsHTML,
-            "import": ImportExportSettingsHTML
+            "import": ImportExportSettingsHTML,
+            "reset": ResetSettingsHTML
         };
 
         const closeFunc = this.CloseSettings.bind(this);
@@ -80,6 +82,15 @@ export class ScriptConfig {
                             } catch (error) {
                                 console.error("Invalid JSON:", error);
                             }
+                        }).bind(this));
+                    }
+
+                    const resetBtn = settingsContent.querySelector(".sah-config-reset-button");
+                    if(resetBtn) {
+                        resetBtn.addEventListener("click", (() => {
+                            this.ApplyDefaults();
+                            this.Save();
+                            resetBtn.innerHTML = "Instellingen zijn gereset!";
                         }).bind(this));
                     }
 
