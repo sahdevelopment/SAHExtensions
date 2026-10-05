@@ -105,11 +105,11 @@ export class MethodPatcher {
     }
 
     apply(methodName) {
-        const original = this.originals.get(methodName);
-
-        if (!original) {
+        if (!this.originals.has(methodName)) {
             return;
         }
+
+        const original = this.originals.get(methodName);
 
         const prefixes = this.prefixes.get(methodName) ?? [];
         const postfixes = this.postfixes.get(methodName) ?? [];
