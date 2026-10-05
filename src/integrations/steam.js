@@ -92,6 +92,7 @@ export class SteamIntegration extends Integration {
 
         const hasAbonnement = this.CheckForAbonnement(customer);
 
+        const now = (new Date(Date.now()));
         const templateData = { 
             problem: appointment.appointment.problem, 
             description: appointment.appointment.description, 
@@ -99,7 +100,8 @@ export class SteamIntegration extends Integration {
             postcode: customer.zip.replace(/[^0-9]*/g, ""), 
             pin: appointment.werkbonPin,
             email: customer.email,
-            date: (new Date(Date.now())).toLocaleDateString("nl-nl", { day: "numeric",  month: "long"}),
+            date: now.toLocaleDateString("nl-nl", { day: "numeric",  month: "long"}),
+            time: now.toLocaleTimeString("nl-nl", { hour: "numeric", minute: "numeric" }),
             startTime: appointment.appointment.startTime,
             endTime: appointment.appointment.endTime,
             firstName: customer.firstName,

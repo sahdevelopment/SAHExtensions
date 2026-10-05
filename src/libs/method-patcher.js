@@ -115,15 +115,15 @@ export class MethodPatcher {
         const postfixes = this.postfixes.get(methodName) ?? [];
 
         this.prototype[methodName] = function (...args) {
-            for (const prefix of prefixes) {
-                prefix.apply(this, args);
-            }
+            try {
+                for (const prefix of prefixes) prefix.apply(this, args);
+            } catch(error) { console.error(error); }
 
             const result = original.apply(this, args);
 
-            for (const postfix of postfixes) {
-                postfix.apply(this, args);
-            }
+            try {
+                for (const postfix of postfixes) postfix.apply(this, args);
+            } catch(error) { console.error(error); }
 
             return result;
         };
