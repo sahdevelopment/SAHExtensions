@@ -41,19 +41,18 @@ export class SteamIntegration extends Integration {
         this.server.Map("fillForm", this.FillForm.bind(this));
 
         //Monitor Steam
-        this.monitor = new SteamMonitor();
-        this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
+        //this.monitor = new SteamMonitor();
+        //this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
         
 
         //Enable everything
-        this.monitor.Enable();
+        //this.monitor.Enable();
         this.server.StartListen();
         this.client.Start();
     }
 
-    OnRecordOpened(record) {
-        console.log(record);
-    }
+    // OnRecordOpened(record) {
+    // }
 
     FillForm(req) {
         if(!req || !req.data) return;
