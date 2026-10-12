@@ -11,12 +11,12 @@ export class SAHEvent {
     }
 
     RemoveListener(func) {
-        this.listeners.removeListener(func);
+        this.listeners.delete(func);
     }
 
     Invoke(...params) {
-        for(let i = 0; i < this.listeners.size; i++) {
-            this.listeners[i](...params);
+        for (const listener of this.listeners) {
+            listener(...params);
         }
     }
 }
