@@ -53,13 +53,10 @@ jobs:
           git rm -rf . || true
 
           cp /tmp/sah-extensions.user.js sah-extensions.user.js
-
           git add sah-extensions.user.js
           git commit -m "Publish sah-extensions.user.js"
 
-          gh auth setup-git
+          git remote set-url origin \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-          git push \
-            "https://github.com/${GITHUB_REPOSITORY}.git" \
-            HEAD:release \
-            --force
+          git push origin HEAD:release --force
