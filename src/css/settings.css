@@ -1,14 +1,16 @@
 #sah-extensions-config {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
+    all: initial;
+    isolation: isolate !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 200000 !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    padding: 3% 10%;
-    box-sizing: border-box;
+    padding: 3% 10% !important;
+    box-sizing: border-box !important;
 
     font-family:
         Inter,
@@ -17,440 +19,452 @@
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
-        sans-serif;
+        sans-serif !important;
 
-    pointer-events: none;
+    pointer-events: none !important;
 
     /* Closed state */
-    visibility: hidden;
-    opacity: 0;
+    visibility: hidden !important;
+    opacity: 0 !important;
 
     transition:
         opacity 0.2s ease,
-        visibility 0s linear 0.25s;
+        visibility 0s linear 0.25s !important;
+}
+
+#sah-extensions-config *,
+#sah-extensions-config *::before,
+#sah-extensions-config *::after {
+    box-sizing: border-box !important;
 }
 
 #sah-extensions-config.open {
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
 
-    pointer-events: auto;
+    pointer-events: auto !important;
 
     transition:
         opacity 0.2s ease,
-        visibility 0s linear 0s;
+        visibility 0s linear 0s !important;
 }
 
-.sah-config-dialog {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
+#sah-extensions-config .sah-config-dialog {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
 
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
 
-    border-radius: 5px;
-    background-color: rgb(66, 66, 66);
+    border-radius: 5px !important;
+    background-color: rgb(66, 66, 66) !important;
 
-    filter: drop-shadow(10px 10px 4px #00000033);
+    filter: drop-shadow(10px 10px 4px #00000033) !important;
 
-    transform: scale(0.96) translateY(8px);
-    opacity: 0;
+    transform: scale(0.96) translateY(8px) !important;
+    opacity: 0 !important;
 
     transition:
         transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-        opacity 0.2s ease;
+        opacity 0.2s ease !important;
 }
 
 #sah-extensions-config.open .sah-config-dialog {
-    transform: scale(1) translateY(0);
-    opacity: 1;
+    transform: scale(1) translateY(0) !important;
+    opacity: 1 !important;
 }
 
 /* -------------------------------------------------------
    Header
 ------------------------------------------------------- */
 
-.sah-config-top-bar {
-    display: flex;
-    align-items: center;
+#sah-extensions-config .sah-config-top-bar {
+    display: flex !important;
+    align-items: center !important;
 
-    flex: 0 0 auto;
+    flex: 0 0 auto !important;
 
-    padding: 0.5em 1em;
+    padding: 0.5em 1em !important;
 }
 
-.sah-config-header {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-header {
+    flex: 1 1 auto !important;
 
-    font-size: 1.2em;
-    font-weight: 700;
-    color: #fff;
+    font-size: 1.2em !important;
+    font-weight: 700 !important;
+    color: #fff !important;
 }
 
-.sah-config-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#sah-extensions-config .sah-config-close {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    width: 20px;
-    height: 20px;
-    padding: 15px;
+    width: 20px !important;
+    height: 20px !important;
+    padding: 15px !important;
 
-    border-radius: 5px;
+    border: none !important;
+    border-radius: 5px !important;
 
-    background-color: rgb(66, 66, 66);
-    color: #fff;
+    background-color: rgb(66, 66, 66) !important;
+    color: #fff !important;
 
-    cursor: pointer;
+    cursor: pointer !important;
 
     transition:
         background-color 0.15s ease,
-        transform 0.15s ease;
+        transform 0.15s ease !important;
 }
 
-.sah-config-close:hover {
-    background-color: rgb(44, 44, 44);
+#sah-extensions-config .sah-config-close:hover {
+    background-color: rgb(44, 44, 44) !important;
 }
 
-.sah-config-close:active {
-    transform: scale(0.9);
+#sah-extensions-config .sah-config-close:active {
+    transform: scale(0.9) !important;
 }
 
 /* -------------------------------------------------------
    Main layout
 ------------------------------------------------------- */
 
-.sah-config-dialog-body {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+#sah-extensions-config .sah-config-dialog-body {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
 
-    flex: 1 1 auto;
-    min-width: 0;
-    min-height: 0;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 /* -------------------------------------------------------
    Categories
 ------------------------------------------------------- */
 
-.sah-config-categories {
-    flex: 0 0 15em;
+#sah-extensions-config .sah-config-categories {
+    flex: 0 0 15em !important;
 
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
 
-    min-width: 15em;
-    min-height: 0;
+    min-width: 15em !important;
+    min-height: 0 !important;
 
-    padding: 0.5em;
+    padding: 0.5em !important;
 
-    overflow-y: auto;
-    box-sizing: border-box;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
 }
 
-.sah-config-category {
-    position: relative;
+#sah-extensions-config .sah-config-category {
+    position: relative !important;
 
-    padding: 0.75em 1em;
+    padding: 0.75em 1em !important;
 
-    border-radius: 5px;
+    border: none !important;
+    border-radius: 5px !important;
+    background: transparent !important;
 
-    color: #ddd;
+    color: #ddd !important;
+    text-align: left !important;
 
-    cursor: pointer;
+    cursor: pointer !important;
 
     transition:
         background-color 0.15s ease,
         color 0.15s ease,
-        transform 0.15s ease;
+        transform 0.15s ease !important;
 }
 
-.sah-config-category:hover {
-    background-color: rgb(55, 55, 55);
-    color: #fff;
-    transform: translateX(3px);
+#sah-extensions-config .sah-config-category:hover {
+    background-color: rgb(55, 55, 55) !important;
+    color: #fff !important;
+    transform: translateX(3px) !important;
 }
 
-.sah-config-category.active {
-    background-color: rgb(55, 55, 55);
-    color: #fff;
+#sah-extensions-config .sah-config-category.active {
+    background-color: rgb(55, 55, 55) !important;
+    color: #fff !important;
 }
 
-.sah-config-category.active::before {
-    content: "";
+#sah-extensions-config .sah-config-category.active::before {
+    content: "" !important;
 
-    position: absolute;
-    left: 0.25em;
-    top: 20%;
-    bottom: 20%;
+    position: absolute !important;
+    left: 0.25em !important;
+    top: 20% !important;
+    bottom: 20% !important;
 
-    width: 3px;
+    width: 3px !important;
 
-    border-radius: 999px;
+    border-radius: 999px !important;
 
-    background-color: #fff;
+    background-color: #fff !important;
 
-    animation: sah-category-indicator-in 0.2s ease;
+    animation: sah-category-indicator-in 0.2s ease !important;
 }
 
 /* -------------------------------------------------------
    Settings
 ------------------------------------------------------- */
 
-.sah-config-settings {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-settings {
+    flex: 1 1 auto !important;
 
-    min-width: 0;
-    min-height: 0;
+    min-width: 0 !important;
+    min-height: 0 !important;
 
-    display: flex;
+    display: flex !important;
 
-    padding-right: 1em;
-    padding-bottom: 1em;
+    padding-right: 1em !important;
+    padding-bottom: 1em !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
-.sah-config-settings-content {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-settings-content {
+    flex: 1 1 auto !important;
 
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
 
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
 
-    padding: 1em;
+    padding: 1em !important;
 
-    border-radius: 5px;
+    border-radius: 5px !important;
 
-    background-color: rgb(55, 55, 55);
-    color: #fff;
+    background-color: rgb(55, 55, 55) !important;
+    color: #fff !important;
 
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 
-    opacity: 1;
-    transform: translateX(0);
+    opacity: 1 !important;
+    transform: translateX(0) !important;
 }
 
 
-.sah-config-settings-content.changing {
-    opacity: 0;
-    transform: translateX(12px);
+#sah-extensions-config .sah-config-settings-content.changing {
+    opacity: 0 !important;
+    transform: translateX(12px) !important;
 
     transition:
         opacity 0.12s ease,
-        transform 0.12s ease;
+        transform 0.12s ease !important;
 }
 
 /*
  * Applied after the new category has been inserted.
  */
-.sah-config-settings-content.changed {
-    animation: sah-category-content-in 0.2s ease forwards;
+#sah-extensions-config .sah-config-settings-content.changed {
+    animation: sah-category-content-in 0.2s ease forwards !important;
 }
 
 /* -------------------------------------------------------
    Category title
 ------------------------------------------------------- */
 
-.sah-config-category-header {
-    flex: 0 0 auto;
+#sah-extensions-config .sah-config-category-header {
+    flex: 0 0 auto !important;
 
-    margin-bottom: 1em;
+    margin-bottom: 1em !important;
 
-    font-size: 1.2em;
-    font-weight: 700;
+    font-size: 1.2em !important;
+    font-weight: 700 !important;
+    color: #fff !important;
 }
 
 /* -------------------------------------------------------
    Settings
 ------------------------------------------------------- */
 
-.sah-config-setting {
-    display: flex;
-    align-items: center;
-    gap: 1em;
+#sah-extensions-config .sah-config-setting {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1em !important;
 
-    min-height: 52px;
-    flex-shrink: 0;
+    min-height: 52px !important;
+    flex-shrink: 0 !important;
 
-    padding: 0.75em 0;
+    padding: 0.75em 0 !important;
 
-    border-bottom: 1px solid rgb(75, 75, 75);
+    border-bottom: 1px solid rgb(75, 75, 75) !important;
 }
 
-.sah-config-setting-label {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-setting-label {
+    flex: 1 1 auto !important;
+    color: #fff !important;
 }
 
-.sah-config-setting-control {
-    flex: 0 0 auto;
+#sah-extensions-config .sah-config-setting-control {
+    flex: 0 0 auto !important;
 }
 
 /* -------------------------------------------------------
    Toggle
 ------------------------------------------------------- */
 
-.sah-config-toggle {
-    position: relative;
+#sah-extensions-config .sah-config-toggle {
+    position: relative !important;
 
-    width: 46px;
-    height: 24px;
+    width: 46px !important;
+    height: 24px !important;
 
-    appearance: none;
-    -webkit-appearance: none;
+    appearance: none !important;
+    -webkit-appearance: none !important;
 
-    border: 0;
-    border-radius: 999px;
+    border: 0 !important;
+    border-radius: 999px !important;
 
-    background-color: rgb(90, 90, 90);
+    background-color: rgb(90, 90, 90) !important;
 
-    cursor: pointer;
+    cursor: pointer !important;
 
     transition:
         background-color 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease !important;
 }
 
-.sah-config-toggle::before {
-    content: "";
+#sah-extensions-config .sah-config-toggle::before {
+    content: "" !important;
 
-    position: absolute;
-    top: 3px;
-    left: 3px;
+    position: absolute !important;
+    top: 3px !important;
+    left: 3px !important;
 
-    width: 18px;
-    height: 18px;
+    width: 18px !important;
+    height: 18px !important;
 
-    border-radius: 50%;
+    border-radius: 50% !important;
 
-    background-color: #fff;
+    background-color: #fff !important;
 
-    box-shadow: 0 1px 3px #0005;
+    box-shadow: 0 1px 3px #0005 !important;
 
     transition:
-        transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 
-.sah-config-toggle:checked {
-    background-color: #4caf50;
+#sah-extensions-config .sah-config-toggle:checked {
+    background-color: #4caf50 !important;
 }
 
-.sah-config-toggle:checked::before {
-    transform: translateX(22px);
+#sah-extensions-config .sah-config-toggle:checked::before {
+    transform: translateX(22px) !important;
 }
 
-.sah-config-toggle:hover {
-    box-shadow: 0 0 0 3px #ffffff12;
+#sah-extensions-config .sah-config-toggle:hover {
+    box-shadow: 0 0 0 3px #ffffff12 !important;
 }
 
-.sah-config-toggle:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
+#sah-extensions-config .sah-config-toggle:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px !important;
 }
 
 /* -------------------------------------------------------
    Inputs
 ------------------------------------------------------- */
 
-.sah-config-input,
-.sah-config-textarea,
-.sah-config-select {
-    width: 30em;
+#sah-extensions-config .sah-config-input,
+#sah-extensions-config .sah-config-textarea,
+#sah-extensions-config .sah-config-select {
+    width: 30em !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 
-    padding: 0.6em 0.75em;
+    padding: 0.6em 0.75em !important;
 
-    border: 1px solid rgb(90, 90, 90);
-    border-radius: 5px;
+    border: 1px solid rgb(90, 90, 90) !important;
+    border-radius: 5px !important;
 
-    background-color: rgb(44, 44, 44);
-    color: #fff;
+    background-color: rgb(44, 44, 44) !important;
+    color: #fff !important;
 
-    font: inherit;
+    font: inherit !important;
 
-    outline: none;
+    outline: none !important;
 
     transition:
         border-color 0.15s ease,
         background-color 0.15s ease,
-        box-shadow 0.15s ease;
+        box-shadow 0.15s ease !important;
 }
 
-.sah-config-input:hover,
-.sah-config-textarea:hover,
-.sah-config-select:hover {
-    border-color: rgb(110, 110, 110);
+#sah-extensions-config .sah-config-input:hover,
+#sah-extensions-config .sah-config-textarea:hover,
+#sah-extensions-config .sah-config-select:hover {
+    border-color: rgb(110, 110, 110) !important;
 }
 
-.sah-config-input:focus,
-.sah-config-textarea:focus,
-.sah-config-select:focus {
-    border-color: rgb(150, 150, 150);
+#sah-extensions-config .sah-config-input:focus,
+#sah-extensions-config .sah-config-textarea:focus,
+#sah-extensions-config .sah-config-select:focus {
+    border-color: rgb(150, 150, 150) !important;
 
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(48, 48, 48) !important;
 
-    box-shadow: 0 0 0 3px #ffffff0d;
+    box-shadow: 0 0 0 3px #ffffff0d !important;
 }
 
-.sah-config-input::placeholder,
-.sah-config-textarea::placeholder {
-    color: rgb(150, 150, 150);
+#sah-extensions-config .sah-config-input::placeholder,
+#sah-extensions-config .sah-config-textarea::placeholder {
+    color: rgb(150, 150, 150) !important;
 }
 
-.sah-config-textarea {
-    min-height: 100px;
+#sah-extensions-config .sah-config-textarea {
+    min-height: 100px !important;
 
-    resize: vertical;
+    resize: vertical !important;
 
-    line-height: 1.45;
+    line-height: 1.45 !important;
 }
 
 /* -------------------------------------------------------
    Dropdown
 ------------------------------------------------------- */
 
-.sah-config-select {
-    appearance: none;
-    -webkit-appearance: none;
+#sah-extensions-config .sah-config-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
 
-    padding-right: 2.25em;
+    padding-right: 2.25em !important;
 
-    cursor: pointer;
+    cursor: pointer !important;
 
     background-image:
         linear-gradient(45deg, transparent 50%, #bbb 50%),
-        linear-gradient(135deg, #bbb 50%, transparent 50%);
+        linear-gradient(135deg, #bbb 50%, transparent 50%) !important;
 
     background-position:
         calc(100% - 14px) 50%,
-        calc(100% - 9px) 50%;
+        calc(100% - 9px) 50% !important;
 
     background-size:
         5px 5px,
-        5px 5px;
+        5px 5px !important;
 
-    background-repeat: no-repeat;
+    background-repeat: no-repeat !important;
 }
 
-.sah-config-select option {
-    background-color: rgb(44, 44, 44);
-    color: #fff;
+#sah-extensions-config .sah-config-select option {
+    background-color: rgb(44, 44, 44) !important;
+    color: #fff !important;
 }
 
 /* -------------------------------------------------------
@@ -459,25 +473,25 @@
 
 @keyframes sah-category-indicator-in {
     from {
-        opacity: 0;
-        transform: scaleY(0);
+        opacity: 0 !important;
+        transform: scaleY(0) !important;
     }
 
     to {
-        opacity: 1;
-        transform: scaleY(1);
+        opacity: 1 !important;
+        transform: scaleY(1) !important;
     }
 }
 
 @keyframes sah-category-content-in {
     from {
-        opacity: 0;
-        transform: translateX(-12px);
+        opacity: 0 !important;
+        transform: translateX(-12px) !important;
     }
 
     to {
-        opacity: 1;
-        transform: translateX(0);
+        opacity: 1 !important;
+        transform: translateX(0) !important;
     }
 }
 
@@ -485,275 +499,272 @@
    Footer
 ------------------------------------------------------- */
 
-.sah-config-dialog-footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+#sah-extensions-config .sah-config-dialog-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
 
-    flex: 0 0 auto;
+    flex: 0 0 auto !important;
 
-    padding: 0em 1em 0.75em 1em;
+    padding: 0em 1em 0.75em 1em !important;
 
-    background-color: rgb(66, 66, 66);
+    background-color: rgb(66, 66, 66) !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
-.sah-config-save {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+#sah-extensions-config .sah-config-save {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
 }
 
-.sah-config-save-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+#sah-extensions-config .sah-config-save-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    min-width: 96px;
-    min-height: 32px;
+    min-width: 96px !important;
+    min-height: 32px !important;
 
-    padding: 0 16px;
+    padding: 0 16px !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 
-    border: 1px solid #0067c5;
-    border-radius: 4px;
+    border: 1px solid #0067c5 !important;
+    border-radius: 4px !important;
 
-    background-color: #0078d4;
-    color: #fff;
+    background-color: #0078d4 !important;
+    color: #fff !important;
 
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
 
-    cursor: pointer;
-    user-select: none;
+    cursor: pointer !important;
+    user-select: none !important;
 
     box-shadow:
-        0 1px 2px #00000026;
+        0 1px 2px #00000026 !important;
 
     transition:
         background-color 0.1s ease,
         border-color 0.1s ease,
         box-shadow 0.1s ease,
-        transform 0.05s ease;
+        transform 0.05s ease !important;
 }
 
 /* Hover — Fluent / Edge style */
-.sah-config-save-button:hover {
-    background-color: #106ebe;
-    border-color: #005a9e;
+#sah-extensions-config .sah-config-save-button:hover {
+    background-color: #106ebe !important;
+    border-color: #005a9e !important;
 
     box-shadow:
-        0 2px 4px #00000030;
+        0 2px 4px #00000030 !important;
 }
 
 /* Pressed */
-.sah-config-save-button:active {
-    background-color: #005a9e;
-    border-color: #004578;
+#sah-extensions-config .sah-config-save-button:active {
+    background-color: #005a9e !important;
+    border-color: #004578 !important;
 
-    box-shadow: none;
+    box-shadow: none !important;
 
-    transform: translateY(1px);
+    transform: translateY(1px) !important;
 }
 
 /* Keyboard focus */
-.sah-config-save-button:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
+#sah-extensions-config .sah-config-save-button:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px !important;
 
     box-shadow:
-        0 0 0 4px #0078d466;
+        0 0 0 4px #0078d466 !important;
 }
 
 /* -------------------------------------------------------
    Template options
 ------------------------------------------------------- */
 
-.sah-config-template-info {
-    flex: 0 0 auto;
+#sah-extensions-config .sah-config-template-info {
+    flex: 0 0 auto !important;
 
-    margin-bottom: 1em;
-    padding: 0.75em;
+    margin-bottom: 1em !important;
+    padding: 0.75em !important;
 
-    border: 1px solid rgb(75, 75, 75);
-    border-radius: 5px;
+    border: 1px solid rgb(75, 75, 75) !important;
+    border-radius: 5px !important;
 
-    background-color: rgb(48, 48, 48);
-    box-sizing: border-box;
+    background-color: rgb(48, 48, 48) !important;
+    box-sizing: border-box !important;
 }
 
-.sah-config-template-info-header {
-    display: block;
+#sah-extensions-config .sah-config-template-info-header {
+    display: block !important;
 
-    margin-bottom: 0.65em;
+    margin-bottom: 0.65em !important;
 
-    color: #fff;
+    color: #fff !important;
 
-    font-size: 0.9em;
-    font-weight: 600;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
 }
 
-.sah-config-template-option {
-    display: flex;
-    align-items: center;
-    gap: 0.75em;
+#sah-extensions-config .sah-config-template-option {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75em !important;
 
-    min-height: 32px;
+    min-height: 32px !important;
 
-    padding: 0.35em 0.5em;
+    padding: 0.35em 0.5em !important;
 
-    border-radius: 4px;
+    border-radius: 4px !important;
 
     transition:
-        background-color 0.1s ease;
+        background-color 0.1s ease !important;
 }
 
-.sah-config-template-option:hover {
-    background-color: rgb(58, 58, 58);
+#sah-extensions-config .sah-config-template-option:hover {
+    background-color: rgb(58, 58, 58) !important;
 }
 
-.sah-config-template-option-name {
-    flex: 0 0 auto;
+#sah-extensions-config .sah-config-template-option-name {
+    flex: 0 0 auto !important;
 
-    padding: 0.2em 0.45em;
+    padding: 0.2em 0.45em !important;
 
-    border: 1px solid #4a9eff;
-    border-radius: 3px;
+    border: 1px solid #4a9eff !important;
+    border-radius: 3px !important;
 
-    background-color: #12395c;
-    color: #8bc4ff;
+    background-color: #12395c !important;
+    color: #8bc4ff !important;
 
     font-family:
         "Cascadia Code",
         "Consolas",
-        monospace;
+        monospace !important;
 
-    font-size: 0.85em;
-    font-weight: 500;
+    font-size: 0.85em !important;
+    font-weight: 500 !important;
 
-    white-space: nowrap;
+    white-space: nowrap !important;
 
-    user-select: all;
+    user-select: all !important;
 }
 
-.sah-config-template-option-description {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-template-option-description {
+    flex: 1 1 auto !important;
 
-    color: #c8c8c8;
+    color: #c8c8c8 !important;
 
-    font-size: 0.85em;
-    line-height: 1.4;
+    font-size: 0.85em !important;
+    line-height: 1.4 !important;
 }
 
 /* Subtle divider between options */
-.sah-config-template-option + .sah-config-template-option {
-    border-top: 1px solid rgb(62, 62, 62);
+#sah-extensions-config .sah-config-template-option + .sah-config-template-option {
+    border-top: 1px solid rgb(62, 62, 62) !important;
 }
 
 /* Keyboard accessibility */
-.sah-config-template-option:focus-within {
-    background-color: rgb(58, 58, 58);
+#sah-extensions-config .sah-config-template-option:focus-within {
+    background-color: rgb(58, 58, 58) !important;
 }
 
-.sah-config-template-option-name:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
+#sah-extensions-config .sah-config-template-option-name:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px !important;
 }
 
 /* -------------------------------------------------------
    Reset
 ------------------------------------------------------- */
 
-.sah-config-reset {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5em;
+#sah-extensions-config .sah-config-reset {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 1.5em !important;
 
-    margin-top: 1.5em;
-    padding: 1em;
+    margin-top: 1.5em !important;
+    padding: 1em !important;
 
-    border: 1px solid #8f1f24;
-    background-color: rgb(48, 48, 48);
-    border-radius: 5px;
+    border: 1px solid #8f1f24 !important;
+    border-radius: 5px !important;
 
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(48, 48, 48) !important;
 
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
-.sah-config-reset-warning {
-    flex: 1 1 auto;
+#sah-extensions-config .sah-config-reset-warning {
+    flex: 1 1 auto !important;
 
-    color: #d8d8d8;
+    color: #d8d8d8 !important;
 
-    font-size: 0.875em;
-    line-height: 1.45;
+    font-size: 0.875em !important;
+    line-height: 1.45 !important;
 }
 
-.sah-config-reset-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+#sah-extensions-config .sah-config-reset-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    flex: 0 0 auto;
+    flex: 0 0 auto !important;
 
-    min-width: 150px;
-    min-height: 32px;
+    min-width: 150px !important;
+    min-height: 32px !important;
 
-    padding: 0 14px;
+    padding: 0 14px !important;
 
-    border: 1px solid #b02a2e;
-    border-radius: 4px;
+    border: 1px solid #b02a2e !important;
+    border-radius: 4px !important;
 
-    color: #fff;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
 
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
+    cursor: pointer !important;
+    user-select: none !important;
 
-    cursor: pointer;
-    user-select: none;
-
-    background-color: #d13438;
-    color: #fff;
+    background-color: #d13438 !important;
+    color: #fff !important;
 
     box-shadow:
-        0 1px 2px #00000026;
+        0 1px 2px #00000026 !important;
 
     transition:
         background-color 0.1s ease,
         border-color 0.1s ease,
         box-shadow 0.1s ease,
-        transform 0.05s ease;
+        transform 0.05s ease !important;
 }
 
-.sah-config-reset-button:hover {
-    background-color: #e43b40;
-    border-color: #c43136;
+#sah-extensions-config .sah-config-reset-button:hover {
+    background-color: #e43b40 !important;
+    border-color: #c43136 !important;
 
     box-shadow:
-        0 2px 4px #00000030;
+        0 2px 4px #00000030 !important;
 }
 
-.sah-config-reset-button:active {
-    background-color: #b02a2e;
-    border-color: #8f1f24;
+#sah-extensions-config .sah-config-reset-button:active {
+    background-color: #b02a2e !important;
+    border-color: #8f1f24 !important;
 
-    box-shadow: none;
+    box-shadow: none !important;
 
-    transform: translateY(1px);
+    transform: translateY(1px) !important;
 }
 
-.sah-config-reset-button:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
+#sah-extensions-config .sah-config-reset-button:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: 2px !important;
 
     box-shadow:
-        0 0 0 4px #d1343866;
+        0 0 0 4px #d1343866 !important;
 }
 
 /* -------------------------------------------------------
@@ -762,29 +773,23 @@
 
 @media (prefers-reduced-motion: reduce) {
     #sah-extensions-config,
-    .sah-config-dialog,
-    .sah-config-settings-content,
-    .sah-config-category.active::before {
+    #sah-extensions-config .sah-config-dialog,
+    #sah-extensions-config .sah-config-settings-content,
+    #sah-extensions-config .sah-config-category.active::before {
         transition: none !important;
         animation: none !important;
     }
 
-    .sah-config-close,
-    .sah-config-category,
-    .sah-config-toggle,
-    .sah-config-toggle::before,
-    .sah-config-input,
-    .sah-config-textarea,
-    .sah-config-select {
-        transition: none !important;
-    }
-    .sah-config-save-button {
-        transition: none !important;
-    }
-    .sah-config-template-option {
-        transition: none !important;
-    }
-    .sah-config-reset-button {
+    #sah-extensions-config .sah-config-close,
+    #sah-extensions-config .sah-config-category,
+    #sah-extensions-config .sah-config-toggle,
+    #sah-extensions-config .sah-config-toggle::before,
+    #sah-extensions-config .sah-config-input,
+    #sah-extensions-config .sah-config-textarea,
+    #sah-extensions-config .sah-config-select,
+    #sah-extensions-config .sah-config-save-button,
+    #sah-extensions-config .sah-config-template-option,
+    #sah-extensions-config .sah-config-reset-button {
         transition: none !important;
     }
 }
