@@ -7,7 +7,7 @@ import { SteamMonitor } from "../libs/steam-monitor";
 import { Config } from "../libs/global-values";
 
 export class SteamIntegration extends Integration {
-    urlRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/.*/;
+    urlRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/tm\/.*/;
     abonnementRegex = /Standaard abonnement \| Actief \| [0-9]+\-[0-9]+\-[0-9]+/;
     monitor;
     toasts;
@@ -52,6 +52,7 @@ export class SteamIntegration extends Integration {
     }
 
     // OnRecordOpened(record) {
+    //     console.log(record);
     // }
 
     FillForm(req) {
