@@ -26,7 +26,7 @@ export class Zoho {
                 "x-murphy-trace-id": this.Token.murphyTrace,
                 "x-zcsrf-token": this.Token.zcsrfToken
             },
-            "referrer": "https://desk.zoho.eu/agent/sahnl/sahnl/klanten/details/192005000052316587",
+            "referrer": window.location.href,
             "mode": "cors",
             "credentials": "include"
         };
@@ -51,7 +51,7 @@ export class Zoho {
                 "x-murphy-trace-id": this.Token.murphyTrace,
                 "x-zcsrf-token": this.Token.zcsrfToken
             },
-            "referrer": "https://desk.zoho.eu/agent/sahnl/sahnl/klanten/details/192005000052316587",
+            "referrer": window.location.href,
             "mode": "cors",
             "credentials": "include"
         });
