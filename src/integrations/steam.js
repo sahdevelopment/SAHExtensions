@@ -45,17 +45,17 @@ export class SteamIntegration extends Integration {
 
         //Monitor Steam
         this.monitor = new SteamMonitor();
-        this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
+        //this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
         
 
         //Enable everything
-        this.monitor.Enable();
+        //this.monitor.Enable();
         this.server.StartListen();
         this.client.Start();
     }
 
     OnRecordOpened(record) {
-        Toast.Info("New Record detected!");
+        //Toast.Info("New Record detected!");
     }
 
     FillForm(req) {
