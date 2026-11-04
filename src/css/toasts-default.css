@@ -1,5 +1,5 @@
 #sah-toast-container {
-    position: absolute;
+    position: fixed;
     inset: 0;
 
     width: 24em;
