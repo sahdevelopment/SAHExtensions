@@ -2,7 +2,7 @@
     position: fixed;
     inset: 0;
 
-    width: 20vw !important;
+    width: max(382px, 20vw) !important;
     padding: 1.25rem;
 
     z-index: 9999 !important;
