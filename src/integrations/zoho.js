@@ -7,6 +7,8 @@ import { MainTabMonitor } from "../libs/main-tab";
 import { Zoho } from "../libs/zoho";
 import { TokenCollector } from "../libs/zoho-token-collector";
 import { Config } from "../libs/global-values";
+import { Toast } from "../libs/toast-output.js";
+import { ErrorHandler } from "../libs/error-handler.js";
 import ZohoCSS from "../css/zoho.css";
 import ZohoHTML from "../html/zoho.html";
 
@@ -23,6 +25,7 @@ export class ZohoIntegration extends Integration {
         //Toasts
         this.toasts = new ToastManager();
         this.toasts.Initialize();
+        Toast.ConnectTo(this.toasts);
 
         //Zoho
         this.zoho = new Zoho();
@@ -32,7 +35,7 @@ export class ZohoIntegration extends Integration {
         //Communication
         const host = "zoho";
         this.client = new TabClient(host);
-        this.client.AddOnSendFailedHandler((toHost, path, payload) =>  this.toasts.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
+        this.client.AddOnSendFailedHandler((toHost, path, payload) =>  ErrorHandler.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
 
         const mainTab = new MainTabMonitor("ZOHO-MAIN-TAB-LOCK");
         mainTab.OnPromote(() => {
@@ -42,6 +45,8 @@ export class ZohoIntegration extends Integration {
             this.server.Map("sendHoaAppointmentToSteam", async(req) => await this.SendHOAAppointmentToSteam(req));
 
             this.server.StartListen();
+
+            Toast.Info("Dit tabblad is gedetecteerd als hoofdtabblad. SAHExtensions gebruikt deze tab om gegevens op te vragen.");
         });
         mainTab.Monitor();
 
@@ -64,17 +69,24 @@ export class ZohoIntegration extends Integration {
         const query = req.data.query;
         const customers = await this.zoho.SearchCustomers(query);
 
+        if(!customers) {
+            const error = "Klant kan opgevraagd worden! Fout bij het verkrijgen van klantgegevens van zoho.";
+            this.client.SendTabRequest(req.fromHost, "error", { message: error });
+            ErrorHandler.Error(error);
+            return [false, null];
+        }
+
         if(customers.length < 1) {
             const error = "Klant kan niet gevonden worden! (no results)";
             this.client.SendTabRequest(req.fromHost, "error", { message: error });
-            this.toasts.Error(error);
+            ErrorHandler.Error(error);
             return [false, null];
         }
 
         if(customers.length > 1) {
             const error = "Meerdere klanten gevonden met dezelfde gegevens. Zoek de klant handmatig op.";
             this.client.SendTabRequest(req.fromHost, "error", { message: error });
-            this.toasts.Error(error);
+            ErrorHandler.Error(error);
             return [false, null];
         }
 
@@ -87,7 +99,7 @@ export class ZohoIntegration extends Integration {
         
         const [success, customerID] = await this.GetCustomerID(req);
         if(!success) return;
-        
+
         const url = `https://desk.zoho.eu/agent/sahnl/sahnl/klanten/details/${customerID}`;
         if(Config.Get("general.zohonewtab")) window.open(url);
         else window.location.href = url;
@@ -100,6 +112,14 @@ export class ZohoIntegration extends Integration {
         if(!success) return;
 
         const customer = await this.zoho.GetCustomerDetails(customerID);
+
+        if(!customer) {
+            const error = "Kan klantgegevens niet verkrijgen. Fout bij het opvragen van meer details (klantgegevens)";
+            this.client.SendTabRequest(req.fromHost, "error", { message: error });
+            ErrorHandler.Error(error);
+            return;
+        }
+
         const request = {
             formType: "HOA",
             formData: {
@@ -113,12 +133,12 @@ export class ZohoIntegration extends Integration {
     async SendCurrentToSteam() {
         const customerID = this.zoho.GetCurrentCustomerID();
         if(!customerID) {
-            this.toasts.Error("Kan klant niet naar steam sturen, klant ID ongeldig");
+            ErrorHandler.Error("Kan klant niet naar steam sturen, klant ID ongeldig");
             return;
         }
         const customer = await this.zoho.GetCustomerDetails(customerID);
         if(!customer) {
-            this.toasts.Error("Kan klant niet naar steam sturen, klant niet gevonden.");
+            ErrorHandler.Error("Kan klant niet naar steam sturen, klant niet gevonden.");
             return;
         }
         const request = {
@@ -133,17 +153,17 @@ export class ZohoIntegration extends Integration {
     async SendCurrentToNexus() {
         const customerID = this.zoho.GetCurrentCustomerID();
         if(!customerID) {
-            this.toasts.Error("Kan klant niet naar nexus sturen, klant ID ongeldig");
+            ErrorHandler.Error("Kan klant niet naar nexus sturen, klant ID ongeldig");
             return;
         }
         const customer = await this.zoho.GetCustomerDetails(customerID);
         if(!customer) {
-            this.toasts.Error("Kan klant niet naar nexus sturen, klant niet gevonden.");
+            ErrorHandler.Error("Kan klant niet naar nexus sturen, klant niet gevonden.");
             return;
         }
         const customerNumber = customer?.cf?.cf_customer_number;
         if(!customerNumber) {
-            this.toasts.Error("Kan klant niet naar nexus sturen, klantnummer niet gevonden.");
+            ErrorHandler.Error("Kan klant niet naar nexus sturen, klantnummer niet gevonden.");
             return;
         }
         Object.assign(document.createElement("a"), {

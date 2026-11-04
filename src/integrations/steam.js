@@ -4,7 +4,9 @@ import { Template } from "../libs/template";
 import { Steam } from "../libs/steam";
 import { Integration } from "../libs/integration";
 import { SteamMonitor } from "../libs/steam-monitor";
+import { Toast } from "../libs/toast-output.js";
 import { Config } from "../libs/global-values";
+import { ErrorHandler } from "../libs/error-handler.js";
 
 export class SteamIntegration extends Integration {
     urlRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/tm\/.*/;
@@ -30,6 +32,7 @@ export class SteamIntegration extends Integration {
         //Toasts
         this.toasts = new ToastManager();
         this.toasts.Initialize();
+        Toast.ConnectTo(this.toasts);
 
         //Communication
         const host = "steam";
@@ -41,30 +44,33 @@ export class SteamIntegration extends Integration {
         this.server.Map("fillForm", this.FillForm.bind(this));
 
         //Monitor Steam
-        //this.monitor = new SteamMonitor();
-        //this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
+        this.monitor = new SteamMonitor();
+        this.monitor.OnRecordActivated.AddListener(this.OnRecordOpened.bind(this));
         
 
         //Enable everything
-        //this.monitor.Enable();
+        this.monitor.Enable();
         this.server.StartListen();
         this.client.Start();
     }
 
-    // OnRecordOpened(record) {
-    //     console.log(record);
-    // }
+    OnRecordOpened(record) {
+        Toast.Info("New Record detected!");
+    }
 
     FillForm(req) {
-        if(!req || !req.data) return;
+        if(!req || !req.data) {
+            ErrorHandler.Error("Invalid fillform request, request == null");
+            return;
+        }
         if(!req.data.formType || !req.data.formData) {
-            this.toasts.Error("Invalid fillform request");
+            ErrorHandler.Error("Invalid fillform request");
             return;
         }
         switch(req.data.formType) {
             case "HOA": this.FillHoaForm(req.data.formData); break;
             case "General": this.FillGeneralDetails(req.data.formData); break;
-            default: this.toasts.Error(`Deze versie van SAHExtensions ondersteunt fill form aanvragen voor '${req.data.formType}' niet!`);
+            default: ErrorHandler.Error(`Deze versie van SAHExtensions ondersteunt fill form aanvragen voor '${req.data.formType}' nog niet!`);
         }
     }
 
@@ -78,9 +84,16 @@ export class SteamIntegration extends Integration {
     }
 
     FillGeneralDetails(formData) {
-        if(!formData) return;
+        if(!formData) {
+            ErrorHandler.Error("Fillform request bevat geen gegevens.");
+            return;
+        }
+
         const customer = formData.customerData;
-        if(!customer) return;
+        if(!customer) {
+            ErrorHandler.Error("Fillform request bevat geen klant gegevens.");
+            return;
+        }
 
         const hasAbonnement = this.CheckForAbonnement(customer);
         Steam.SetBox(9745, customer.phone);
@@ -88,13 +101,27 @@ export class SteamIntegration extends Integration {
         Steam.SetDropdowns({
             "Klant heeft abonnement": hasAbonnement ? 26 : undefined,
         });
+        Toast.Success("Gegevens ingevuld!");
     }
     
     FillHoaForm(formData) {
-        if(!formData) return;
+        if(!formData) {
+            ErrorHandler.Error("Fillform request bevat geen gegevens.");
+            return;
+        }
+
         const appointment = formData.appointmentData;
         const customer = formData.customerData;
-        if(!customer || !appointment) return;
+
+        if(!customer) {
+            ErrorHandler.Error("HOA Fillform request bevat geen klant gegevens.");
+            return;
+        }
+
+        if(!appointment) {
+            ErrorHandler.Error("HOA Fillform request bevat geen afspraak gegevens.");
+            return;
+        }
 
         const hasAbonnement = this.CheckForAbonnement(customer);
 
@@ -129,5 +156,6 @@ export class SteamIntegration extends Integration {
             "Verrichte werkzaamheden": this.templates.HOA.Executed.Execute(templateData),
             "(Vrijblijvend) advies/oplossing:": this.templates.HOA.Advice.Execute(templateData),
         });
+        Toast.Success("Gegevens ingevuld!");
     }
 }

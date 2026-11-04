@@ -13,19 +13,19 @@ export class ToastManager {
     }
 
     Initialize() {
-        this.toastContainer = document.getElementById("toast-container");
+        this.toastContainer = document.getElementById("sah-toast-container");
         if(this.toastContainer) return;
 
         TM.AddStyle(ToastsCSS);
         FA.Enable();
         document.body.insertAdjacentHTML("afterbegin", ToastContainerHTML);
-        this.toastContainer = document.getElementById("toast-container");
+        this.toastContainer = document.getElementById("sah-toast-container");
     }
 
     CreateTemplateToast() {
         this.toastContainer.insertAdjacentHTML("beforeend", ToastHTML);
         const toast = this.toastContainer.lastElementChild;
-        const closeBtn = toast.querySelector("toast-close-button");
+        const closeBtn = toast.querySelector(".sah-toast-close-button");
         if(closeBtn) closeBtn.addEventListener("click", _ => this.CloseToast(toast));
         setTimeout(() => this.CloseToast(toast), this.toastDuration);
         return toast;
@@ -33,9 +33,9 @@ export class ToastManager {
 
     CloseToast(toast) {
         if(!toast) return;
-        if(toast.classList.contains("toast-removed")) return;
-        toast.classList.add("toast-hiding");
-        toast.classList.add("toast-removed");
+        if(toast.classList.contains("sah-toast-removed")) return;
+        toast.classList.add("sah-toast-hiding");
+        toast.classList.add("sah-toast-removed");
         toast.addEventListener("animationend", () => {
             toast.remove();
         }, { once: true });
@@ -45,25 +45,25 @@ export class ToastManager {
         const toast = this.CreateTemplateToast();
         if(!toast) return;
         toast.classList.add(type);
-        const content = toast.querySelector(".toast-content");
-        const iconElement = toast.querySelector(".toast-icon i");
+        const content = toast.querySelector(".sah-toast-content");
+        const iconElement = toast.querySelector(".sah-toast-icon i");
         if(content) content.innerText = text;
         if(iconElement) iconElement.classList.add(icon);
     }
 
     Info(text) {
-        this.CreateToast("toast-info", "fa-info", text);
+        this.CreateToast("sah-toast-info", "fa-info", text);
     }
 
     Warning(text) {
-        this.CreateToast("toast-warning", "fa-triangle-exclamation", text);
+        this.CreateToast("sah-toast-warning", "fa-triangle-exclamation", text);
     }
 
     Error(text) {
-        this.CreateToast("toast-error", "fa-xmark", text);
+        this.CreateToast("sah-toast-error", "fa-xmark", text);
     }
 
     Success(text) {
-        this.CreateToast("toast-success", "fa-check", text);
+        this.CreateToast("sah-toast-success", "fa-check", text);
     }
 }

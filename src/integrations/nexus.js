@@ -4,30 +4,33 @@ import { HtmlIntegration } from "../libs/htmlintegration";
 import { TamperMonkey as TM } from "../libs/tampermonkey";
 import { Nexus } from "../libs/nexus";
 import { Clipboard } from "../libs/clipboard";
+import { ToastManager } from "../libs/toasts";
+import { Toast } from "../libs/toast-output.js";
+import { ErrorHandler } from "../libs/error-handler.js";
 import NexusHtml from "../html/nexus.html";
 import NexusCss from "../css/nexus.css";
-import { ToastManager } from "../libs/toasts";
 
 export class NexusIntegration extends Integration {
     urlRegex = /https:\/\/app\.studentaanhuis\.nl.*/;
     client;
     server;
-    toasts;
+    toastManager;
 
     Execute() {
         console.log("Nexus integration active!");
 
         //Toasts
-        this.toasts = new ToastManager();
-        this.toasts.Initialize();
+        this.toastManager = new ToastManager();
+        this.toastManager.Initialize();
+        Toast.ConnectTo(this.toastManager);
 
         //Communication
         const host = "nexus";
         this.client = new TabClient(host);
-        this.client.AddOnSendFailedHandler((toHost, path, payload) =>  this.toasts.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
+        this.client.AddOnSendFailedHandler((toHost, path, payload) =>  ErrorHandler.Error(`Kon niet communiceren met ${toHost}, is het tabje open?`));
 
         this.server = new TabServer(host);
-        this.server.Map("error", req => this.toasts.Error(req.data.message));
+        this.server.Map("error", req => ErrorHandler.Error(req.data.message));
         
         //Integration
         TM.AddStyle(NexusCss);
@@ -43,15 +46,15 @@ export class NexusIntegration extends Integration {
             const postalNums = Nexus.GetPostalCodeNums(Nexus.GetDialog());
             if(postalNums) {
                 Clipboard.Copy(postalNums);
-                this.toasts.Success("Postcodecijfers gekopieerd!");
-            } else this.toasts.Error("Kon niet kopiëren.");
+                Toast.Success("Postcode cijfers gekopieerd!");
+            } else ErrorHandler.Error("Kon postcode cijfers niet kopiëren.");
         });
         integration.OnClick("copyPinBtn", () => {
             const pin = Nexus.GetPin(Nexus.GetDialog());
             if(pin) {
                 Clipboard.Copy(pin);
-                this.toasts.Success("Pin gekopieerd!");
-            } else this.toasts.Error("Kon niet kopiëren.");
+                Toast.Success("Pin gekopieerd!");
+            } else ErrorHandler.Error("Kon werkbon pin niet kopiëren.");
         });
 
         this.client.Start();
@@ -62,14 +65,14 @@ export class NexusIntegration extends Integration {
     async SendDetailsToSteam() {
         const student = await Nexus.GetStudent();
         if(!student || !student.success) {
-            this.toasts.Error("Kon geen student gegevens verkrijgen!");
+            ErrorHandler.Error("Kon geen student gegevens verkrijgen!");
             return;
         }
 
         const studentNexusID = student.me.student_id;
         const studentDetails = await Nexus.GetStudentDetails(studentNexusID);
         if(!studentDetails) {
-            this.toasts.Error("Kon geen student gegevens verkrijgen!");
+            ErrorHandler.Error("Kon geen student gegevens verkrijgen!");
             return;
         }
 
@@ -79,15 +82,15 @@ export class NexusIntegration extends Integration {
         const customer = Nexus.GetCustomerInfo(sections);
         const appointment = Nexus.GetAppointmentInfo(sections);
         if(!pin) {
-            this.toasts.Error("Fout bij het ophalen van de werkbon pin!");
+            ErrorHandler.Error("Fout bij het ophalen van de werkbon pin!");
             return;
         }
         if(!customer) {
-            this.toasts.Error("Fout bij het ophalen van klant gegevens!");
+            ErrorHandler.Error("Fout bij het ophalen van klant gegevens!");
             return;
         }
         if(!appointment) {
-            this.toasts.Error("Fout bij het ophalen van afspraak gegevens!");
+            ErrorHandler.Error("Fout bij het ophalen van afspraak gegevens!");
             return;
         }
 
@@ -105,6 +108,7 @@ export class NexusIntegration extends Integration {
             }
         };
         
+        Toast.Info("Aanvraag naar zoho verzonden...");
         this.client.SendTabRequest("zoho", "sendHoaAppointmentToSteam", request);
     }
 
@@ -113,7 +117,7 @@ export class NexusIntegration extends Integration {
         const sections = Nexus.GetSections(dialog);
         const customer = Nexus.GetCustomerInfo(sections);
         if(!customer) {
-            this.toasts.Error("Fout bij het ophalen van klant gegevens!");
+            ErrorHandler.Error("Fout bij het ophalen van klant gegevens!");
             return;
         }
 
@@ -122,7 +126,7 @@ export class NexusIntegration extends Integration {
             query: zohoQuery
         };
 
-        this.toasts.Info("Aanvraag naar zoho verzonden...");
+        Toast.Info("Aanvraag naar zoho verzonden...");
         this.client.SendTabRequest("zoho", "openCustomer", request);
     }
 }
