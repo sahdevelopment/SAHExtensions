@@ -1,3 +1,5 @@
+import { ErrorHandler } from "./error-handler";
+
 export class Zoho {
     ApiBaseURL = "https://desk.zoho.eu/supportapi/zd/sahnl/api/v1/";
     OrgID = "20103286373";
@@ -30,12 +32,11 @@ export class Zoho {
             "mode": "cors",
             "credentials": "include"
         };
-        console.log(request);
         return await fetch(`${this.ApiBaseURL}${endpoint}`, request);
     }
 
     async ZohoApiRequestWithoutPayload(requestMethod, endpoint) {
-        return await fetch(`${this.ApiBaseURL}${endpoint}`, {
+        const request = {
             method: requestMethod,
             headers: {
                 "accept": "*/*",
@@ -54,12 +55,17 @@ export class Zoho {
             "referrer": window.location.href,
             "mode": "cors",
             "credentials": "include"
-        });
+        };
+        return await fetch(`${this.ApiBaseURL}${endpoint}`, request);
     }
 
     async GlobalSearch(query) {
-        if(!query) return undefined;
-        return await this.ZohoApiRequest("POST", "globalSearch", {
+        if(!query) {
+            ErrorHandler.Error("Failed to perform global search. No query was provided");
+            return undefined;
+        }
+        
+        const response = await this.ZohoApiRequest("POST", "globalSearch", {
             "module":"contacts",
             "departmentId":this.CurrentDepartmentID,
             "pattern":"1",
@@ -72,22 +78,59 @@ export class Zoho {
             "ziaSearch":false,
             "source":"globalSearch"
         });
+
+        if(!response) {
+            ErrorHandler.Error("Failed to perform global search. Response == null");  
+            return undefined;
+        }
+        
+        if(response.status !== 200) {
+            ErrorHandler.Error(`Failed to perform global search. ${response.status}: ${response.statusText}`);
+            return undefined;
+        }
+        
+        const result = await response.json();
+
+        if(!result) {
+            ErrorHandler.Error("Failed to perform global search. Response is not valid JSON");
+            return undefined;
+        }
+
+        return result;
     }
 
     async GetCustomerDetails(customerID) { 
         const response = await this.ZohoApiRequestWithoutPayload("GET", `contacts/${customerID}?include=accounts,owner`);
-        //TODO add error handling
-        return await response.json();
+        if(!response) {
+            ErrorHandler.Error("Failed to perform customer fetch. Response == null");  
+            return undefined;
+        }
+        
+        if(response.status !== 200) {
+            ErrorHandler.Error(`Failed to perform customer fetch. ${response.status}: ${response.statusText}`);
+            return undefined;
+        }
+        
+        const result = await response.json();
+
+        if(!result) {
+            ErrorHandler.Error("Failed to perform customer fetch. Response is not valid JSON");
+            return undefined;
+        }
+
+        return result;
     }
 
     async SearchCustomers(query) {
-        const klantOpties = await (await this.GlobalSearch(query)).json();
-        //TODO add error handling
+        const klantOpties = await this.GlobalSearch(query);
+
         if(!klantOpties || klantOpties.data.length < 1) {
             return [];
         }
+
         const results = [];
         for(let i = 0; i < klantOpties.data.length; i++) results.push(klantOpties.data[i].id);
+        
         return results;
     }
 

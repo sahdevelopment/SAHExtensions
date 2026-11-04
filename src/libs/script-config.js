@@ -12,8 +12,10 @@ export class ScriptConfig {
     Defaults = {};
     UserSettings = {};
     Config;
+    steamLiveRegex = /https:\/\/studentaanhuis\.steam\.eu\.com\/live.*/;
 
     constructor() {
+        if(window.location.href.match(this.steamLiveRegex)) return; //patch to prevent settings in the steam inbound embed.
         GM_registerMenuCommand("Open Settings", this.OpenSettings.bind(this), "s");
         this.CreateConfig();
     }
@@ -160,14 +162,17 @@ export class ScriptConfig {
     }
 
     async Save() {
+        if(window.location.href.match(this.steamLiveRegex)) return; //patch to prevent settings in the steam inbound embed.
         await TM.SetValue("user.settings", this.UserSettings);
     }
 
     OpenSettings() {
+        if(window.location.href.match(this.steamLiveRegex)) return; //patch to prevent settings in the steam inbound embed.
         this.Config.classList.add("open");
     }
 
     CloseSettings() {
+        if(window.location.href.match(this.steamLiveRegex)) return; //patch to prevent settings in the steam inbound embed.
         this.Config.classList.remove("open");
     }
 
