@@ -95,18 +95,48 @@ export class SteamIntegration extends Integration {
             return;
         }
 
-        const hasAbonnement = this.CheckForAbonnement(customer);
-        Steam.SetBox(9745, customer.phone);
-        Steam.SetBox(9546, customer.cf.cf_customer_number);
-        Steam.SetDropdowns({
-            "Klant heeft abonnement": hasAbonnement ? 26 : undefined,
-        });
+        const record = Steam.GetActiveRecord();
+        if(!record) {
+            Toast.Error("Geen record open!");
+            return;
+        }
+
+        const type = Steam.GetRecordType(record);
+        if(!type) {
+            Toast.Error("Record campagne is undefined!");
+            return;
+        }
+        
+        switch(type) {
+            case "Hulp op Afstand":
+                const hasAbonnement = this.CheckForAbonnement(customer);
+                Steam.SetBox(9745, customer.phone);
+                Steam.SetBox(9546, customer.cf.cf_customer_number);
+                Steam.SetDropdowns({
+                    "Klant heeft abonnement": hasAbonnement ? 26 : undefined,
+                });
+                break;
+            case "Klant Contact Center":
+                Steam.SetBox(13070, customer.phone);
+                Steam.SetBox(14120, customer.cf.cf_customer_number);
+                Steam.SetBox(13069, customer.lastName);
+                break;
+            default:
+                Toast.Error(`Records van type ${type} worden niet ondersteund!`);
+                return;
+        }
+        
         Toast.Success("Gegevens ingevuld!");
     }
     
     FillHoaForm(formData) {
         if(!formData) {
             ErrorHandler.Error("Fillform request bevat geen gegevens.");
+            return;
+        }
+
+        if(!Steam.GetActiveRecord()) {
+            Toast.Error("Geen record open!");
             return;
         }
 

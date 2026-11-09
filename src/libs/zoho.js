@@ -59,6 +59,33 @@ export class Zoho {
         return await fetch(`${this.ApiBaseURL}${endpoint}`, request);
     }
 
+    async GetTicket(ticketID) {
+        if(!ticketID) {
+            ErrorHandler.Error("Failed to fetch ticket, no id was provided");
+            return undefined;
+        }
+        const response = await this.ZohoApiRequestWithoutPayload("GET", `tickets/${ticketID}?include=secondaryContacts,departments,contacts,products,assignee,team,contract,source,skills,isRead`);
+        
+        if(!response) {
+            ErrorHandler.Error("Failed to perform ticket fetch. Response == null");  
+            return undefined;
+        }
+        
+        if(response.status !== 200) {
+            ErrorHandler.Error(`Failed to perform ticket fetch. ${response.status}: ${response.statusText}`);
+            return undefined;
+        }
+        
+        const result = await response.json();
+
+        if(!result) {
+            ErrorHandler.Error("Failed to perform ticket fetch. Response is not valid JSON");
+            return undefined;
+        }
+
+        return result;
+    }
+
     async GlobalSearch(query) {
         if(!query) {
             ErrorHandler.Error("Failed to perform global search. No query was provided");
@@ -134,7 +161,28 @@ export class Zoho {
         return results;
     }
 
-    GetCurrentCustomerID() {
+    GetCurrentTicketID() {
+        const regex = /https:\/\/desk\.zoho\.eu\/agent\/sahnl\/sahnl\/tickets\/details\/([0-9]+)/;
+        const groups = regex.exec(window.location.href);
+        if(!groups) return undefined;
+        if(groups.length < 2) return undefined;
+        const id = groups[1];
+        if(!id) return undefined;
+        return id;
+    }
+
+    async GetCurrentCustomerID() {
+        const isTicket = /.+\/tickets\/.+/.test(window.location.href);
+        if(isTicket) {
+            const ticketID = this.GetCurrentTicketID();
+            const ticket = await this.GetTicket(ticketID);
+            if(!ticket) {
+                ErrorHandler.Error("Could not fetch ticket details");
+                return undefined;
+            }
+            return ticket.contactId;
+        }
+
         const klantIDSelectorRegex = /https:\/\/desk\.zoho\.eu\/agent\/sahnl\/.+\/klanten\/details\/([0-9]*)/;
         const res = klantIDSelectorRegex.exec(window.location.href);
         if(!res) return undefined;

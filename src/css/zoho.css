@@ -19,3 +19,11 @@
     transition: color 1s ease;
     transition: border-color 1s ease;
 }
+
+.sah-ticket-status-bad {
+    color: rgb(255, 107, 107);
+}
+
+.sah-ticket-status-good {
+    color: rgb(74, 192, 100);
+}

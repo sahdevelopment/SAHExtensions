@@ -79,5 +79,14 @@ export const Steam = {
         textArea.value = value;
         textArea.dispatchEvent(new Event("input", { bubbles: true }));
         textArea.dispatchEvent(new Event("change", { bubbles: true }));
+    },
+
+    GetActiveRecord() {
+        if(!unsafeWindow.belscherm) return undefined;
+        return unsafeWindow.belscherm.activeRecord;
+    },
+
+    GetRecordType(record) {
+        return record?.campagne?.data?.campagne[0]?.naam;
     }
 };

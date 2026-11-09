@@ -30,6 +30,10 @@ export class HtmlIntegration
         this.observer.disconnect();
     }
 
+    AddPostInjectionHandler(handler) {
+        this.postinjection.push(handler);
+    }
+
     OnClick(id, handler) {
         this.postinjection.push(() => {
             const elem = document.getElementById(id);
